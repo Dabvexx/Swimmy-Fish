@@ -6,6 +6,8 @@ public class CollisionDetection : MonoBehaviour
 {
     private UIManager sm;
 
+    private bool isCollided = false;
+
     public delegate void DeathDelegate();
 
     public event DeathDelegate deathEvent;
@@ -29,8 +31,11 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Collision"))
+        if (collision.gameObject.CompareTag("Collision") && !isCollided)
         {
+            // Stop the event from being triggered multiple times.
+            isCollided = true;
+
             Debug.Log("Died");
             deathEvent?.Invoke();
         }
