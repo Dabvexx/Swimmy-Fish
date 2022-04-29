@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0c6020b49333f494799a97fb2eff5be0
+guid: e9db1562f018e7d47a45df22374725b0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -116,12 +116,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pipe_0
+      name: Water_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
-        width: 32
+        y: 32
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -130,19 +130,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e2b75b8ec2572e7458055a0367ca812b
-      internalID: 953820093
+      spriteID: 4ba8ccc1cf98ea94ea0145532ada29d9
+      internalID: 529995516
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pipe_1
+      name: Water_1
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
-        width: 32
+        y: 16
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -151,8 +151,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1e95dc3b9ee658845a99056f48ad9694
-      internalID: 1285466713
+      spriteID: 1c2ded250395ec444930a9ed24bbaf74
+      internalID: 1956054571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Water_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f0dba478816e27a46ac61b18bd0ade8b
+      internalID: -538289858
       vertices: []
       indices: 
       edges: []
@@ -168,8 +189,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Pipe_1: 1285466713
-      Pipe_0: 953820093
+      Water_2: -538289858
+      Water_1: 1956054571
+      Water_0: 529995516
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

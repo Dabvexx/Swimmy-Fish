@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
-    ScoreManager sm;
+    private ScoreManager sm;
 
     public delegate void DeathDelegate();
+
     public event DeathDelegate deathEvent;
 
     private void Start()
@@ -16,8 +17,10 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.CompareTag("Score"))
+        if (collision.gameObject.CompareTag("Score"))
         {
+            Debug.Log("Score");
+
             sm.IncrementScore(100);
         }
     }
@@ -26,10 +29,8 @@ public class CollisionDetection : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Collision"))
         {
-            if (deathEvent != null)
-            {
-                deathEvent();
-            }
+            Debug.Log("Died");
+            deathEvent?.Invoke();
         }
     }
 }
