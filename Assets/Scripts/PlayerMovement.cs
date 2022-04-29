@@ -16,14 +16,13 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator coroutine;
 
-    // Start is called before the first frame update
     private void Start()
     {
+        FindObjectOfType<CollisionDetection>().deathEvent += StopInput;
+
         rb = GetComponent<Rigidbody2D>();
 
         coroutine = HandleInput();
-
-        FindObjectOfType<CollisionDetection>().deathEvent += StopInput;
 
         StartCoroutine(coroutine);
     }

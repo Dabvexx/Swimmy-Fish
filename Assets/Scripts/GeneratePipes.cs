@@ -12,12 +12,11 @@ public class GeneratePipes : MonoBehaviour
 
     private IEnumerator coroutine;
 
-    // Start is called before the first frame update
     private void Start()
     {
-        coroutine = SpawnPipes();
-
         FindObjectOfType<CollisionDetection>().deathEvent += StopSpawning;
+
+        coroutine = SpawnPipes();
 
         StartCoroutine(coroutine);
     }

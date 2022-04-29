@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
-    private ScoreManager sm;
+    private UIManager sm;
 
     public delegate void DeathDelegate();
 
@@ -12,7 +12,7 @@ public class CollisionDetection : MonoBehaviour
 
     private void Start()
     {
-        sm = FindObjectOfType<ScoreManager>();
+        sm = FindObjectOfType<UIManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,7 +21,9 @@ public class CollisionDetection : MonoBehaviour
         {
             Debug.Log("Score");
 
-            sm.IncrementScore(100);
+            sm.IncrementScore(1);
+
+            collision.GetComponent<BoxCollider2D>().enabled = false;
         }
     }
 

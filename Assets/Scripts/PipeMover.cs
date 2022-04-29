@@ -8,12 +8,11 @@ public class PipeMover : MonoBehaviour
 
     private IEnumerator coroutine;
 
-    // Update is called once per frame
     private void Start()
     {
-        coroutine = MovePipes();
-
         FindObjectOfType<CollisionDetection>().deathEvent += StopMoving;
+
+        coroutine = MovePipes();
 
         StartCoroutine(coroutine);
     }
