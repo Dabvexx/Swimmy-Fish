@@ -15,6 +15,7 @@ public class CollisionDetection : MonoBehaviour
     private void Start()
     {
         sm = FindObjectOfType<ScoreManager>();
+        FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,5 +41,10 @@ public class CollisionDetection : MonoBehaviour
 
             deathEvent?.Invoke();
         }
+    }
+
+    private void ResetLevel()
+    {
+        isCollided = false;
     }
 }

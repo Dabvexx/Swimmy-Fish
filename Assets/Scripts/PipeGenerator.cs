@@ -13,7 +13,7 @@ public class PipeGenerator : MonoBehaviour
 
     [SerializeField] private float variationIntensity = 1.2f;
 
-    public List<GameObject> Pipes = new List<GameObject>();
+    public List<GameObject> pipes = new List<GameObject>();
 
     private float minOffset = -9.5f;
     private float maxOffset = -5.5f;
@@ -31,15 +31,11 @@ public class PipeGenerator : MonoBehaviour
 
         FindObjectOfType<CollisionDetection>().deathEvent += StopSpawning;
 
+        FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
+
         coroutine = SpawnPipes();
 
         StartCoroutine(coroutine);
-    }
-
-    private void StopSpawning()
-    {
-        FindObjectOfType<CollisionDetection>().deathEvent -= StopSpawning;
-        StopCoroutine(coroutine);
     }
 
     private IEnumerator SpawnPipes()
@@ -57,7 +53,7 @@ public class PipeGenerator : MonoBehaviour
 
             ConstructPipe(offset, pipe);
 
-            Pipes.Add(pipe);
+            pipes.Add(pipe);
 
             prevOffset = offset;
 
@@ -75,7 +71,7 @@ public class PipeGenerator : MonoBehaviour
     {
         // Half the gap of the pipe multiplied by the difference between the delay of the pipe and its speed
         // times an intensity variable to create more dramatic results
-        float variation = ((pipeGap / 2f) * (pipeDelay / pipeSpeed)) * intensity;
+        float variation = ((pipeGap / 2.5f) * (pipeDelay / pipeSpeed)) * intensity;
 
         // Use sin and cosin to create a bias for going up and down and only staying in one direction for a moment.
 
@@ -84,14 +80,15 @@ public class PipeGenerator : MonoBehaviour
         float minOffset = Mathf.Clamp(prevOffset + variation, -9.5f, -4.5f);
         float maxOffset = Mathf.Clamp(prevOffset - variation, -9.5f, -4.5f);
 
-        Debug.Log("Variation: " + variation);
-        Debug.Log("Min Offset: " + minOffset);
-        Debug.Log("Max Offset: " + maxOffset);
-
         // Generate the offset.
         float offset = Random.Range(minOffset, maxOffset);
 
+        /*
+        Debug.Log("Variation: " + variation);
+        Debug.Log("Min Offset: " + minOffset);
+        Debug.Log("Max Offset: " + maxOffset);
         Debug.Log("Pipe Offset: " + offset);
+        */
 
         return offset;
     }
@@ -100,8 +97,6 @@ public class PipeGenerator : MonoBehaviour
     {
         // Create a pipe by combining 2 pipe prefabs as well as adjusting a scoring segment.
         // all stored on an empty game object with the pipe mover script.
-
-        // Make the gap variable equal the bounds of the scoring collider, shrink the collider preogressivly over time
         float gap = GetPipeGap();
 
         // Add children to gameobject.
@@ -129,5 +124,23 @@ public class PipeGenerator : MonoBehaviour
     private float CalculatePipeSpeed()
     {
         return 3f;
+    }
+
+    private void StopSpawning()
+    {
+        StopCoroutine(coroutine);
+    }
+
+    private void ResetLevel()
+    {
+        // Delete all pipes
+        foreach (var pipe in pipes)
+        {
+            Destroy(pipe);
+        }
+
+        pipes.Clear();
+
+        StartCoroutine(coroutine);
     }
 }

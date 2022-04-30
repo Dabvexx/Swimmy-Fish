@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         FindObjectOfType<CollisionDetection>().deathEvent += StopInput;
+        FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
 
         rb = GetComponent<Rigidbody2D>();
         rb.isKinematic = true;
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
                 //rb.SetRotation(jumpRotation);
                 if (rb.isKinematic)
                 {
+                    // TODO: CHANGE THIS FROM BEING KINEAMATIC! PLAY CAN JUST CHEAT BY NOT DOING ANYTHING!
                     rb.isKinematic = false;
                 }
 
@@ -72,7 +74,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopInput()
     {
-        FindObjectOfType<CollisionDetection>().deathEvent -= StopInput;
         StopCoroutine(coroutine);
+    }
+
+    private void ResetLevel()
+    {
+        transform.position = new Vector3(-5, 0, 0);
+
+        rb.isKinematic = true;
+        StartCoroutine(coroutine);
     }
 }

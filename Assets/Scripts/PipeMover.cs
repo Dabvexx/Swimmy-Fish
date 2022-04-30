@@ -26,8 +26,7 @@ public class PipeMover : MonoBehaviour
         {
             if (transform.position.x < -15)
             {
-                FindObjectOfType<CollisionDetection>().deathEvent -= StopMoving;
-                pg.Pipes.Remove(gameObject);
+                pg.pipes.Remove(gameObject);
                 Destroy(gameObject);
             }
 
@@ -39,7 +38,11 @@ public class PipeMover : MonoBehaviour
 
     private void StopMoving()
     {
-        FindObjectOfType<CollisionDetection>().deathEvent -= StopMoving;
         StopCoroutine(coroutine);
+    }
+
+    private void OnDestroy()
+    {
+        FindObjectOfType<CollisionDetection>().deathEvent -= StopMoving;
     }
 }

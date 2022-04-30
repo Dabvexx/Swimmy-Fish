@@ -32,11 +32,11 @@ public class LivesManager : MonoBehaviour
     {
         // Prompt player to restart or go to title screen.
         // Title screen will have many fishies spinning and flying across the screen.
+        Debug.Log("Game Over");
     }
 
     private void DecrementLives()
     {
-        FindObjectOfType<CollisionDetection>().deathEvent -= DecrementLives;
         lives--;
 
         // I For the life of me cant figure out why this will give a null refrence exception but ok sure.
@@ -49,6 +49,7 @@ public class LivesManager : MonoBehaviour
         {
             // Invoke to get timing
             Invoke("OnGameOver", 2f);
+            return;
         }
 
         Invoke("ResetScene", 2f);
@@ -56,6 +57,7 @@ public class LivesManager : MonoBehaviour
 
     private void ResetScene()
     {
+        Debug.Log("Reset Scene");
         resetEvent?.Invoke();
     }
 }

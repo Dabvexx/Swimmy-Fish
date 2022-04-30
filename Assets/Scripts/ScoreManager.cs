@@ -32,6 +32,8 @@ public class ScoreManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+        FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
+
         GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>().text = totalScore.ToString();
         curScore = 0;
     }
@@ -46,5 +48,10 @@ public class ScoreManager : MonoBehaviour
     public void UpdateScore()
     {
         GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>().text = totalScore.ToString();
+    }
+
+    private void ResetLevel()
+    {
+        curScore = 0;
     }
 }
