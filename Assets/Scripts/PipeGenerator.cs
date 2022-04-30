@@ -123,6 +123,8 @@ public class PipeGenerator : MonoBehaviour
 
     private float CalculatePipeSpeed()
     {
+        // Speed = 1 / score to get a fraction
+        // Base speed * that fraction
         return 3f;
     }
 

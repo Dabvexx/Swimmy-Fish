@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     {
         transform.position = new Vector3(-5, 0, 0);
 
+        transform.rotation = Quaternion.identity;
         rb.isKinematic = true;
         StartCoroutine(coroutine);
     }
