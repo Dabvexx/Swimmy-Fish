@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PipeMover : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
+    public float speed = 5f;
+    [SerializeField] private PipeGenerator pg;
 
     private IEnumerator coroutine;
 
     private void Start()
     {
+        pg = FindObjectOfType<PipeGenerator>();
+
         FindObjectOfType<CollisionDetection>().deathEvent += StopMoving;
 
         coroutine = MovePipes();
@@ -24,7 +27,8 @@ public class PipeMover : MonoBehaviour
             if (transform.position.x < -15)
             {
                 FindObjectOfType<CollisionDetection>().deathEvent -= StopMoving;
-                Destroy(this.gameObject);
+                pg.Pipes.Remove(gameObject);
+                Destroy(gameObject);
             }
 
             transform.Translate(new Vector3(-speed * Time.deltaTime, 0f, 0f));
@@ -35,6 +39,7 @@ public class PipeMover : MonoBehaviour
 
     private void StopMoving()
     {
+        FindObjectOfType<CollisionDetection>().deathEvent -= StopMoving;
         StopCoroutine(coroutine);
     }
 }

@@ -1,33 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-public class UIManager : MonoBehaviour
+public class LivesManager : MonoBehaviour
 {
-    // Todo: Make the game not actually start before spacebar is pressed.
+    [SerializeField] private int lives = 3;
 
-    private int totalScore;
-    private int lives = 3;
+    public static LivesManager instance;
 
-    [SerializeField] private TextMeshProUGUI scoreText;
-    //[SerializeField] private TextMeshProUGUI livesText;
+    public delegate void ResetDelegate();
 
-    private void Start()
+    public event ResetDelegate resetEvent;
+
+    private void Awake()
     {
+        if (instance != null)
+        {
+            Destroy(gameObject);
+        }
+
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+
         FindObjectOfType<CollisionDetection>().deathEvent += DecrementLives;
-    }
-
-    public void IncrementScore(int score)
-    {
-        totalScore += score;
-        UpdateScore();
-    }
-
-    public void UpdateScore()
-    {
-        scoreText.text = totalScore.ToString();
+        GameObject.FindGameObjectWithTag("Lives").GetComponent<TextMeshProUGUI>().text = $"Lives: {lives}";
     }
 
     public void OnGameOver()
@@ -38,6 +36,7 @@ public class UIManager : MonoBehaviour
 
     private void DecrementLives()
     {
+        FindObjectOfType<CollisionDetection>().deathEvent -= DecrementLives;
         lives--;
 
         // I For the life of me cant figure out why this will give a null refrence exception but ok sure.
@@ -57,8 +56,6 @@ public class UIManager : MonoBehaviour
 
     private void ResetScene()
     {
-        // Figure out scene persistance.
-        var scene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(scene.name);
+        resetEvent?.Invoke();
     }
 }

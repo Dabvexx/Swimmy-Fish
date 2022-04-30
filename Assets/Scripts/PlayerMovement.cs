@@ -16,11 +16,12 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator coroutine;
 
-    private void Start()
+    private void Awake()
     {
         FindObjectOfType<CollisionDetection>().deathEvent += StopInput;
 
         rb = GetComponent<Rigidbody2D>();
+        rb.isKinematic = true;
 
         coroutine = HandleInput();
 
@@ -56,6 +57,10 @@ public class PlayerMovement : MonoBehaviour
                 */
 
                 //rb.SetRotation(jumpRotation);
+                if (rb.isKinematic)
+                {
+                    rb.isKinematic = false;
+                }
 
                 rb.AddTorque(jumpRotation);
                 rb.velocity = new Vector2(0f, jumpForce);
@@ -67,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopInput()
     {
+        FindObjectOfType<CollisionDetection>().deathEvent -= StopInput;
         StopCoroutine(coroutine);
     }
 }

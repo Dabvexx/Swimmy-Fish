@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CollisionDetection : MonoBehaviour
 {
-    private UIManager sm;
+    private ScoreManager sm;
 
     private bool isCollided = false;
 
@@ -14,12 +14,12 @@ public class CollisionDetection : MonoBehaviour
 
     private void Start()
     {
-        sm = FindObjectOfType<UIManager>();
+        sm = FindObjectOfType<ScoreManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Score"))
+        if (collision.gameObject.CompareTag("ScoreField"))
         {
             Debug.Log("Score");
 
@@ -37,6 +37,7 @@ public class CollisionDetection : MonoBehaviour
             isCollided = true;
 
             Debug.Log("Died");
+
             deathEvent?.Invoke();
         }
     }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Collision
   - Score
+  - Lives
+  - ScoreField
   layers:
   - Default
   - TransparentFX
