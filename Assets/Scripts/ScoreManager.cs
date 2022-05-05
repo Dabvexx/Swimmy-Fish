@@ -54,4 +54,9 @@ public class ScoreManager : MonoBehaviour
     {
         curScore = 0;
     }
+
+    public float GetDifficultyFromScore()
+    {
+        return curScore / 20;
+    }
 }

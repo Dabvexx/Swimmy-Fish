@@ -15,6 +15,8 @@ public class PipeGenerator : MonoBehaviour
 
     public List<GameObject> pipes = new List<GameObject>();
 
+    private ScoreManager sm;
+
     private float minOffset = -9.5f;
     private float maxOffset = -5.5f;
 
@@ -28,6 +30,8 @@ public class PipeGenerator : MonoBehaviour
     private void Start()
     {
         empty = new GameObject("Pipe");
+
+        sm = FindObjectOfType<ScoreManager>();
 
         FindObjectOfType<CollisionDetection>().deathEvent += StopSpawning;
 
@@ -69,11 +73,11 @@ public class PipeGenerator : MonoBehaviour
     // Offsets are based on what the previous pipes offset as well.
     private float CalculatePipeOffset(float prevOffset, float pipeDelay, float pipeSpeed, float pipeGap, float intensity)
     {
-        // Half the gap of the pipe multiplied by the difference between the delay of the pipe and its speed
+        // 5/2 the gap of the pipe multiplied by the difference between the delay of the pipe and its speed
         // times an intensity variable to create more dramatic results
         float variation = ((pipeGap / 2.5f) * (pipeDelay / pipeSpeed)) * intensity;
 
-        // Use sin and cosin to create a bias for going up and down and only staying in one direction for a moment.
+        // Maybe Use sin and cosin to create a bias for going up and down and only staying in one direction for a moment.
 
         // +- variation to the last pipes offset
         // Clamp offset to not create absurd scenarios
@@ -115,17 +119,19 @@ public class PipeGenerator : MonoBehaviour
         // Instantiate prefab at 12 + (gap / 2) after calculating how tall the box colliders bounds is
 
         // Use bounds to get the gap size
-        float gap = 3f;
+        float gap = 3f / sm.GetDifficultyFromScore();
 
         // Add 12 to make the pipes perfectly flush with eachother
-        return gap;
+        return Mathf.Clamp(gap, 2.3f, 4f);
     }
 
     private float CalculatePipeSpeed()
     {
         // Speed = 1 / score to get a fraction
         // Base speed * that fraction
-        return 3f;
+        var speed = 3f * sm.GetDifficultyFromScore();
+
+        return Mathf.Clamp(speed, 3f, 15f);
     }
 
     private void StopSpawning()
