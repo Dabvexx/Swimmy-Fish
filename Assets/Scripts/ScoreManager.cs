@@ -55,8 +55,8 @@ public class ScoreManager : MonoBehaviour
         curScore = 0;
     }
 
-    public float GetDifficultyFromScore()
+    public float GetDifficultyFromScore(float multiplier)
     {
-        return curScore / 20;
+        return Mathf.Sin(curScore / multiplier);
     }
 }

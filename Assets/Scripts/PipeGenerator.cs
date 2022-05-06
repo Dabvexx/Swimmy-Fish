@@ -97,6 +97,11 @@ public class PipeGenerator : MonoBehaviour
         return offset;
     }
 
+    private float GetPipeDelay()
+    {
+        return pipeDelay / sm.GetDifficultyFromScore(10f); ;
+    }
+
     private void ConstructPipe(float offset, GameObject parent)
     {
         // Create a pipe by combining 2 pipe prefabs as well as adjusting a scoring segment.
@@ -119,17 +124,17 @@ public class PipeGenerator : MonoBehaviour
         // Instantiate prefab at 12 + (gap / 2) after calculating how tall the box colliders bounds is
 
         // Use bounds to get the gap size
-        float gap = 3f / sm.GetDifficultyFromScore();
+        float gap = 3f / sm.GetDifficultyFromScore(4);
 
         // Add 12 to make the pipes perfectly flush with eachother
-        return Mathf.Clamp(gap, 2.3f, 4f);
+        return Mathf.Clamp(gap, 2.3f, 3f);
     }
 
     private float CalculatePipeSpeed()
     {
         // Speed = 1 / score to get a fraction
         // Base speed * that fraction
-        var speed = 3f * sm.GetDifficultyFromScore();
+        var speed = 3f * sm.GetDifficultyFromScore(10);
 
         return Mathf.Clamp(speed, 3f, 15f);
     }
