@@ -15,8 +15,7 @@ public class ScoreManager : MonoBehaviour
     // Persistant score for player
     public int totalScore = 0;
 
-    // Volatile score used for pipe gap spacing.
-    public int curScore = 0;
+    public int highScore = 0;
 
     [SerializeField] private TextMeshProUGUI scoreText;
 
@@ -32,31 +31,22 @@ public class ScoreManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(gameObject);
 
-        FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
-
         GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>().text = totalScore.ToString();
-        curScore = 0;
     }
 
     public void IncrementScore(int score)
     {
         totalScore += score;
-        curScore += score;
+
+        if (totalScore > highScore)
+        {
+            highScore = totalScore;
+        }
         UpdateScore();
     }
 
     public void UpdateScore()
     {
         GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>().text = totalScore.ToString();
-    }
-
-    private void ResetLevel()
-    {
-        curScore = 0;
-    }
-
-    public float GetDifficultyFromScore(float multiplier)
-    {
-        return Mathf.Sin(curScore / multiplier);
     }
 }

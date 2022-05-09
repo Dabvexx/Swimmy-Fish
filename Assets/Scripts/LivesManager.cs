@@ -30,8 +30,7 @@ public class LivesManager : MonoBehaviour
 
     public void OnGameOver()
     {
-        // Prompt player to restart or go to title screen.
-        // Title screen will have many fishies spinning and flying across the screen.
+        FindObjectOfType<DifficultyManager>().ShowMenu();
         Debug.Log("Game Over");
     }
 
@@ -55,7 +54,7 @@ public class LivesManager : MonoBehaviour
         Invoke("ResetScene", 2f);
     }
 
-    private void ResetScene()
+    public void ResetScene()
     {
         Debug.Log("Reset Scene");
         resetEvent?.Invoke();

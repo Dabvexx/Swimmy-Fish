@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class PipeGenerator : MonoBehaviour
 {
+    #region Variables
+
+    // Start pipe variables.
+    public float pipeGap = 3f;
+
+    public float pipeSpeed = 3f;
+
+    public float pipeDelay = 2f;
+
+    public float variationIntensity = 1.2f;
+
     [SerializeField] private GameObject pipePrefab;
 
-    // Use bounds of scoreprefab to determind gap size
     [SerializeField] private GameObject scorePrefab;
 
-    [SerializeField] private float pipeDelay = 2f;
-
-    [SerializeField] private float variationIntensity = 1.2f;
-
     public List<GameObject> pipes = new List<GameObject>();
+    // End pipe variables.
 
     private ScoreManager sm;
 
@@ -27,6 +34,8 @@ public class PipeGenerator : MonoBehaviour
 
     private GameObject empty;
 
+    #endregion Variables
+
     private void Start()
     {
         empty = new GameObject("Pipe");
@@ -39,7 +48,7 @@ public class PipeGenerator : MonoBehaviour
 
         coroutine = SpawnPipes();
 
-        StartCoroutine(coroutine);
+        //StartCoroutine(coroutine);
     }
 
     private IEnumerator SpawnPipes()
@@ -47,8 +56,7 @@ public class PipeGenerator : MonoBehaviour
         for (; ; )
         {
             //var offset = Random.Range(minOffset, maxOffset);
-            var pipeSpeed = CalculatePipeSpeed();
-            var offset = CalculatePipeOffset(prevOffset, pipeDelay, pipeSpeed, GetPipeGap(), variationIntensity);
+            var offset = CalculatePipeOffset(prevOffset, pipeDelay, pipeSpeed, pipeGap, variationIntensity);
             var pipe = Instantiate(empty, new Vector3(15, offset, 0), Quaternion.identity);
 
             // Add the pipemover and set its speed
@@ -97,16 +105,11 @@ public class PipeGenerator : MonoBehaviour
         return offset;
     }
 
-    private float GetPipeDelay()
-    {
-        return pipeDelay / sm.GetDifficultyFromScore(10f); ;
-    }
-
     private void ConstructPipe(float offset, GameObject parent)
     {
         // Create a pipe by combining 2 pipe prefabs as well as adjusting a scoring segment.
         // all stored on an empty game object with the pipe mover script.
-        float gap = GetPipeGap();
+        float gap = pipeGap;
 
         // Add children to gameobject.
         Instantiate(pipePrefab, parent.transform.position, Quaternion.identity, parent.transform);
@@ -116,27 +119,6 @@ public class PipeGenerator : MonoBehaviour
         var flip = Instantiate(pipePrefab, new Vector3(parent.transform.position.x, parent.transform.position.y + (gap + 12), parent.transform.position.z), Quaternion.identity, parent.transform);
 
         flip.transform.localScale = new Vector3(1, -10, 1);
-    }
-
-    private float GetPipeGap()
-    {
-        // make the pipes get slightly closer toget till you reach a max threashhold
-        // Instantiate prefab at 12 + (gap / 2) after calculating how tall the box colliders bounds is
-
-        // Use bounds to get the gap size
-        float gap = 3f / sm.GetDifficultyFromScore(4);
-
-        // Add 12 to make the pipes perfectly flush with eachother
-        return Mathf.Clamp(gap, 2.3f, 3f);
-    }
-
-    private float CalculatePipeSpeed()
-    {
-        // Speed = 1 / score to get a fraction
-        // Base speed * that fraction
-        var speed = 3f * sm.GetDifficultyFromScore(10);
-
-        return Mathf.Clamp(speed, 3f, 15f);
     }
 
     private void StopSpawning()

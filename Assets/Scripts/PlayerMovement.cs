@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float jumpForce = 5f;
     [SerializeField] private float jumpRotation = 5f;
+    private AudioSource source;
+    [SerializeField] private AudioClip jump;
 
     /*
     [SerializeField] private float minAngle = 5f;
@@ -21,24 +23,14 @@ public class PlayerMovement : MonoBehaviour
         FindObjectOfType<CollisionDetection>().deathEvent += StopInput;
         FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
 
+        source = GetComponent<AudioSource>();
+
         rb = GetComponent<Rigidbody2D>();
-        rb.isKinematic = true;
+        rb.gravityScale = 0f;
 
         coroutine = HandleInput();
 
-        StartCoroutine(coroutine);
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        /*transform.eulerAngles = new Vector3
-                                    (
-                                        transform.eulerAngles.x,
-                                        transform.eulerAngles.y,
-                                        minAngle
-                                    );
-        */
+        //StartCoroutine(coroutine);
     }
 
     private IEnumerator HandleInput()
@@ -47,25 +39,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
-                /*transform.eulerAngles = new Vector3
-                                        (
-                                            transform.eulerAngles.x,
-                                            transform.eulerAngles.y,
-                                            maxAngle
-                                        );
-
-                rb.AddTorque(jumpRotation);
-                */
-
-                //rb.SetRotation(jumpRotation);
-                if (rb.isKinematic)
+                if (rb.gravityScale == 0)
                 {
-                    // TODO: CHANGE THIS FROM BEING KINEAMATIC! PLAY CAN JUST CHEAT BY NOT DOING ANYTHING!
-                    rb.isKinematic = false;
+                    rb.gravityScale = 2.2f;
                 }
 
                 rb.AddTorque(jumpRotation);
                 rb.velocity = new Vector2(0f, jumpForce);
+                source.PlayOneShot(jump);
             }
 
             yield return null;
@@ -82,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
         transform.position = new Vector3(-5, 0, 0);
 
         transform.rotation = Quaternion.identity;
-        rb.isKinematic = true;
+        rb.gravityScale = 0;
         StartCoroutine(coroutine);
     }
 }

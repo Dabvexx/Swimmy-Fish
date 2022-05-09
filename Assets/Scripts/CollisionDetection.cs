@@ -8,12 +8,17 @@ public class CollisionDetection : MonoBehaviour
 
     private bool isCollided = false;
 
+    private AudioSource source;
+    [SerializeField] private AudioClip bonk;
+    [SerializeField] private AudioClip collect;
+
     public delegate void DeathDelegate();
 
     public event DeathDelegate deathEvent;
 
     private void Start()
     {
+        source = GetComponent<AudioSource>();
         sm = FindObjectOfType<ScoreManager>();
         FindObjectOfType<LivesManager>().resetEvent += ResetLevel;
     }
@@ -25,6 +30,8 @@ public class CollisionDetection : MonoBehaviour
             Debug.Log("Score");
 
             sm.IncrementScore(1);
+
+            source.PlayOneShot(collect);
 
             collision.GetComponent<BoxCollider2D>().enabled = false;
         }
@@ -38,6 +45,8 @@ public class CollisionDetection : MonoBehaviour
             isCollided = true;
 
             Debug.Log("Died");
+
+            source.PlayOneShot(bonk);
 
             deathEvent?.Invoke();
         }
