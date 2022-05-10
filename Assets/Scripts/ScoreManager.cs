@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour
 
     public int highScore = 0;
 
-    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] public TextMeshProUGUI scoreText;
 
     public static ScoreManager instance;
 

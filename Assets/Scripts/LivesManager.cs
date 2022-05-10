@@ -6,7 +6,7 @@ using TMPro;
 
 public class LivesManager : MonoBehaviour
 {
-    [SerializeField] private int lives = 3;
+    public int lives = 3;
 
     public static LivesManager instance;
 
