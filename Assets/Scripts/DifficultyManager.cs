@@ -65,9 +65,11 @@ public class DifficultyManager : MonoBehaviour
     {
         // Reset values.
         lm.lives = 3;
+        sm.totalScore = 0;
         GameObject.FindGameObjectWithTag("Lives").GetComponent<TextMeshProUGUI>().text = $"Lives: 3";
         GameObject.FindGameObjectWithTag("Score").GetComponent<TextMeshProUGUI>().text = "0";
 
+        // Render menu.
         gameCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         highScoreText.text = "High Score: " + sm.highScore.ToString();
